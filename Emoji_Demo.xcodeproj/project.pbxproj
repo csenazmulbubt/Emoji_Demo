@@ -16,6 +16,7 @@
 		0061678B297EE99F0077B423 /* Emoji_DemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0061678A297EE99F0077B423 /* Emoji_DemoTests.swift */; };
 		00616795297EE99F0077B423 /* Emoji_DemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00616794297EE99F0077B423 /* Emoji_DemoUITests.swift */; };
 		00616797297EE99F0077B423 /* Emoji_DemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00616796297EE99F0077B423 /* Emoji_DemoUITestsLaunchTests.swift */; };
+		006167A5297EEB6D0077B423 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006167A4297EEB6D0077B423 /* CustomCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		00616790297EE99F0077B423 /* Emoji_DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Emoji_DemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00616794297EE99F0077B423 /* Emoji_DemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emoji_DemoUITests.swift; sourceTree = "<group>"; };
 		00616796297EE99F0077B423 /* Emoji_DemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emoji_DemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		006167A4297EEB6D0077B423 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		00616772297EE99A0077B423 /* Emoji_Demo */ = {
 			isa = PBXGroup;
 			children = (
+				006167A3297EEB430077B423 /* CustomCollectionViewCell */,
 				00616773297EE99A0077B423 /* AppDelegate.swift */,
 				00616775297EE99A0077B423 /* SceneDelegate.swift */,
 				00616777297EE99A0077B423 /* ViewController.swift */,
@@ -125,6 +128,14 @@
 				00616796297EE99F0077B423 /* Emoji_DemoUITestsLaunchTests.swift */,
 			);
 			path = Emoji_DemoUITests;
+			sourceTree = "<group>";
+		};
+		006167A3297EEB430077B423 /* CustomCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				006167A4297EEB6D0077B423 /* CustomCollectionViewCell.swift */,
+			);
+			path = CustomCollectionViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +272,7 @@
 				00616778297EE99A0077B423 /* ViewController.swift in Sources */,
 				00616774297EE99A0077B423 /* AppDelegate.swift in Sources */,
 				00616776297EE99A0077B423 /* SceneDelegate.swift in Sources */,
+				006167A5297EEB6D0077B423 /* CustomCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,6 +459,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -475,6 +488,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
