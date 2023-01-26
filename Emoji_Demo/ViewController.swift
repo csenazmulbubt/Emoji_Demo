@@ -8,17 +8,45 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var subCategoryCollectionView: UICollectionView!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var imageView: UIImageView!
     
+    private var viewModel: EmojiPickerViewModelProtocol! //= nil
+    private var isFirst: Bool = false
+    private var currentSelectedCatIndex: Int = 0
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        //self.categoryCollectionView.scrollDirection = .horizontal
+        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if !isFirst{
+            isFirst = true
+            let unicodeManager = UnicodeManager()
+            viewModel = EmojiPickerViewModel(unicodeManager: unicodeManager)
+            self.bindViewModel()
+        }
+    }
+    
+    private func bindViewModel() {
+        guard let viewModel = self.viewModel else { return }
+        viewModel.selectedEmoji.bind { [weak self] emoji in
+            guard let _ = self else { return }
+            
+        }
+        viewModel.selectedEmojiCategoryIndex.bind { [weak self] categoryIndex in
+            guard let self = self else { return }
+            print("NNNNNNNNN")
+            self.currentSelectedCatIndex = categoryIndex
+            self.subCategoryCollectionView.reloadData()
+        }
+    }
     
 }
 
@@ -30,9 +58,10 @@ extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource {
         
         switch collectionView {
         case categoryCollectionView:
-            return 15
+            return viewModel.numberOfSections()
         default:
-            return 10
+            print("Reload")
+            return viewModel.numberOfItems(in: currentSelectedCatIndex)
         }
     }
     
@@ -42,9 +71,12 @@ extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource {
         case self.categoryCollectionView:
             let catCell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.catCellReuseIdentifier, for: indexPath) as? CustomCollectionViewCell
             
+            catCell?.cellConfig(for: viewModel.categoryName(for: indexPath.item))
             return catCell ?? UICollectionViewCell()
         default:
-            let subCatcell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.catCellReuseIdentifier, for: indexPath) as? CustomCollectionViewCell
+            let subCatcell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.subCatCellResuseIdentifier, for: indexPath) as? CustomCollectionViewCell
+            let actualIndexPath = IndexPath(item: indexPath.item, section: currentSelectedCatIndex)
+            subCatcell?.cellConfig(for: viewModel.emoji(at: actualIndexPath))
             return subCatcell ?? UICollectionViewCell()
         }
     }
@@ -52,6 +84,15 @@ extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource {
     // CollectionView Delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        switch collectionView {
+        case self.categoryCollectionView:
+            self.viewModel.selectedEmojiCategoryIndex.value = indexPath.item
+            break
+        default:
+            let actualIndexPath = IndexPath(item: indexPath.item, section: currentSelectedCatIndex)
+            self.viewModel.selectedEmoji.value = viewModel.emoji(at: actualIndexPath)
+            break
+        }
     }
     
     
@@ -60,5 +101,34 @@ extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource {
 //MARK: - UICollectionViewDelegateFlowLayout
 extension ViewController: UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        switch collectionView {
+        case self.categoryCollectionView:
+            return CGSize(width: 100, height: collectionView.bounds.height)
+        default:
+            let sideInsets = collectionView.contentInset.right + collectionView.contentInset.left
+            let contentSize = collectionView.bounds.width - sideInsets
+            return CGSize(width: contentSize / 4, height: contentSize / 8)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        switch collectionView {
+        case self.categoryCollectionView:
+            return 0
+        default:
+            return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        switch collectionView {
+        case self.categoryCollectionView:
+            return 0
+        default:
+            return 0
+        }
+    }
+    
+    
 }
-

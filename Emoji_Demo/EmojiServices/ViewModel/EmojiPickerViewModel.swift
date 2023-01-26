@@ -34,7 +34,7 @@ protocol EmojiPickerViewModelProtocol {
     /// This method is responsible for getting the emoji for the target indexPath.
     func emoji(at indexPath: IndexPath) -> String
     /// The method is responsible for getting the localized name of the emoji section.
-    func sectionHeaderViewModel(for section: Int) -> String
+    func categoryName(for section: Int) -> String
 }
 
 /// Emoji Picker view model.
@@ -64,7 +64,7 @@ final class EmojiPickerViewModel: EmojiPickerViewModelProtocol {
         return emojiCategories[indexPath.section].emojis[indexPath.row].emoji()
     }
     
-    func sectionHeaderViewModel(for section: Int) -> String {
+    func categoryName(for section: Int) -> String {
         return emojiCategories[section].categoryName
     }
 }
