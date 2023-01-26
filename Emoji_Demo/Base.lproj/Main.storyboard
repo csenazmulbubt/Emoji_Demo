@@ -63,6 +63,10 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="5x7-vb-Kkt"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Rv9-Vz-oRf"/>
+                                </connections>
                             </collectionView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="iKv-KD-Dy6">
                                 <rect key="frame" x="0.0" y="502" width="414" height="360"/>
@@ -100,6 +104,10 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="W0r-D3-u93"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="x45-Yo-2Tm"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -118,7 +126,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="categoryCollectionView" destination="mVa-ba-Cwt" id="3os-Te-IXC"/>
                         <outlet property="imageView" destination="Dmx-rZ-bqg" id="t7D-32-qVK"/>
+                        <outlet property="subCategoryCollectionView" destination="iKv-KD-Dy6" id="oOm-ZG-rQX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

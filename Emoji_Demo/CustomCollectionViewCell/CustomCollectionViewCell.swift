@@ -11,5 +11,12 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var commonLabel: UILabel!
     
+    static let catCellReuseIdentifier = "categoryCell"
+    static let subCatCellResuseIdentifier = "subCategoryCell"
+    
+    
+    func cellConfig(for emoji: String) -> Void {
+        self.commonLabel.text = emoji
+    }
     
 }
