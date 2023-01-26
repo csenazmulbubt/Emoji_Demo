@@ -36,8 +36,10 @@ class ViewController: UIViewController {
     private func bindViewModel() {
         guard let viewModel = self.viewModel else { return }
         viewModel.selectedEmoji.bind { [weak self] emoji in
-            guard let _ = self else { return }
-            
+            guard let self = self else { return }
+            autoreleasepool {
+                self.imageView.image = emoji.textToImage(size: 200)
+            }
         }
         viewModel.selectedEmojiCategoryIndex.bind { [weak self] categoryIndex in
             guard let self = self else { return }
@@ -68,12 +70,12 @@ extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource {
         case self.categoryCollectionView:
             let catCell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.catCellReuseIdentifier, for: indexPath) as? CustomCollectionViewCell
             
-            catCell?.cellConfig(for: viewModel.categoryName(for: indexPath.item))
+            catCell?.cellConfigForCategory(for: viewModel.categoryName(for: indexPath.item))
             return catCell ?? UICollectionViewCell()
         default:
             let subCatcell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.subCatCellResuseIdentifier, for: indexPath) as? CustomCollectionViewCell
             let actualIndexPath = IndexPath(item: indexPath.item, section: currentSelectedCatIndex)
-            subCatcell?.cellConfig(for: viewModel.emoji(at: actualIndexPath))
+            subCatcell?.cellConfigForCategory(for: viewModel.emoji(at: actualIndexPath))
             return subCatcell ?? UICollectionViewCell()
         }
     }
@@ -141,4 +143,54 @@ extension String{
         let size = self.size(withAttributes: fontAttributes)
         return size.width
     }
+    
+    func textToImage(size: CGFloat) -> UIImage? {
+        autoreleasepool {
+            let nsString = (self as NSString)
+            let font = UIFont.systemFont(ofSize: size) // you can change your font size here
+            let stringAttributes = [NSAttributedString.Key.font: font]
+            let imageSize = nsString.size(withAttributes: stringAttributes)
+            
+            UIGraphicsBeginImageContextWithOptions(imageSize, false, 0) //  begin image context
+            UIColor.clear.set() // clear background
+            UIRectFill(CGRect(origin: CGPoint(), size: imageSize)) // set rect size
+            nsString.draw(at: CGPoint.zero, withAttributes: stringAttributes) // draw text within rect
+            let image = UIGraphicsGetImageFromCurrentImageContext() // create image from context
+            UIGraphicsEndImageContext() //  end image context
+            
+            return image ?? UIImage()
+        }
+    }
+    
+    func emojiToImage(text: String, size: CGFloat) -> UIImage {
+        
+        let outputImageSize = CGSize.init(width: size, height: size)
+        let baseSize = text.boundingRect(with: CGSize(width: 2048, height: 2048),
+                                         options: .usesLineFragmentOrigin,
+                                         attributes: [.font: UIFont.systemFont(ofSize: size / 2)], context: nil).size
+        let fontSize = outputImageSize.width / max(baseSize.width, baseSize.height) * (outputImageSize.width / 2)
+        let font = UIFont.systemFont(ofSize: fontSize)
+        let textSize = text.boundingRect(with: CGSize(width: outputImageSize.width, height: outputImageSize.height),
+                                         options: .usesLineFragmentOrigin,
+                                         attributes: [.font: font], context: nil).size
+        
+        let style = NSMutableParagraphStyle()
+        style.alignment = NSTextAlignment.center
+        style.lineBreakMode = NSLineBreakMode.byClipping
+        
+        let attr : [NSAttributedString.Key : Any] = [NSAttributedString.Key.font : font,
+                                                     NSAttributedString.Key.paragraphStyle: style,
+                                                     NSAttributedString.Key.backgroundColor: UIColor.clear ]
+        
+        UIGraphicsBeginImageContextWithOptions(outputImageSize, false, 0)
+        text.draw(in: CGRect(x: (size - textSize.width) / 2,
+                             y: (size - textSize.height) / 2,
+                             width: textSize.width,
+                             height: textSize.height),
+                  withAttributes: attr)
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
+    
 }
