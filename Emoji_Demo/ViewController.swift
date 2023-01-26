@@ -21,7 +21,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         //self.categoryCollectionView.scrollDirection = .horizontal
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,7 +41,6 @@ class ViewController: UIViewController {
         }
         viewModel.selectedEmojiCategoryIndex.bind { [weak self] categoryIndex in
             guard let self = self else { return }
-            print("NNNNNNNNN")
             self.currentSelectedCatIndex = categoryIndex
             self.subCategoryCollectionView.reloadData()
         }
@@ -60,7 +58,6 @@ extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource {
         case categoryCollectionView:
             return viewModel.numberOfSections()
         default:
-            print("Reload")
             return viewModel.numberOfItems(in: currentSelectedCatIndex)
         }
     }
@@ -104,31 +101,44 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch collectionView {
         case self.categoryCollectionView:
-            return CGSize(width: 100, height: collectionView.bounds.height)
+            let height = categoryCollectionView.bounds.height
+            let categoryName = viewModel.categoryName(for: indexPath.item)
+            let width = categoryName.widthOfString(usingFont: UIFont.systemFont(ofSize: 11))
+            let padding = 16.0
+            return CGSize(width: width + padding, height: height)
         default:
             let sideInsets = collectionView.contentInset.right + collectionView.contentInset.left
             let contentSize = collectionView.bounds.width - sideInsets
-            return CGSize(width: contentSize / 4, height: contentSize / 8)
+            return CGSize(width: contentSize / 8, height: contentSize / 8)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         switch collectionView {
         case self.categoryCollectionView:
-            return 0
+            return 16.0
         default:
-            return 0
+            return 8.0
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         switch collectionView {
         case self.categoryCollectionView:
-            return 0
+            return 16.0
         default:
-            return 0
+            return 8.0
         }
     }
     
     
+}
+
+extension String{
+    
+    func widthOfString(usingFont font: UIFont) -> CGFloat {
+        let fontAttributes = [NSAttributedString.Key.font: font]
+        let size = self.size(withAttributes: fontAttributes)
+        return size.width
+    }
 }
