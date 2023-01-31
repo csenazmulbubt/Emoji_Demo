@@ -28,11 +28,13 @@ import Foundation
  */
 extension Array where Element == Int {
     func emoji() -> String {
-        var emoji = ""
-        for hexValue in self {
-            guard let unicode = UnicodeScalar(hexValue) else { break }
-            emoji.append(String(unicode))
+        autoreleasepool {
+            var emoji = ""
+            for hexValue in self {
+                guard let unicode = UnicodeScalar(hexValue) else { break }
+                emoji.append(String(unicode))
+            }
+            return emoji
         }
-        return emoji
     }
 }

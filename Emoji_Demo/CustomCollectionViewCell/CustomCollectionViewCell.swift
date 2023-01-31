@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Foundation
 
 class CustomCollectionViewCell: UICollectionViewCell {
     
@@ -23,11 +24,38 @@ class CustomCollectionViewCell: UICollectionViewCell {
     }
     
     func cellConfigForCategory(for cateName: String) -> Void {
-        self.commonLabel.text = cateName
+        
+        if self.reuseIdentifier == CustomCollectionViewCell.subCatCellResuseIdentifier {
+            autoreleasepool {
+                self.commonLabel.text = cateName
+            }
+        }
+        else{
+            self.commonLabel.text = cateName
+        }
     }
     
     func cellConfigForEmoji(for emoji: String) -> Void {
-        self.imageView.image = emoji.textToImage(size: 50)
+        self.imageView.image = emoji.textToImage(size: 70)
     }
     
+}
+
+
+extension String {
+    var encodeEmoji: String{
+        if let encodeStr = NSString(cString: self.cString(using: .nonLossyASCII)!, encoding: String.Encoding.utf8.rawValue){
+            return encodeStr as String
+        }
+        return self
+    }
+    
+    var decodeEmoji: String{
+        let data = self.data(using: String.Encoding.utf8);
+        let decodedStr = NSString(data: data!, encoding: String.Encoding.nonLossyASCII.rawValue)
+        if let str = decodedStr{
+            return str as String
+        }
+        return self
+    }
 }

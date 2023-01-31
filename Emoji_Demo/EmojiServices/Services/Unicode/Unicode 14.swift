@@ -25,14 +25,14 @@ extension UnicodeManager {
             EmojiCategory(
                 categoryName: getEmojiCategoryTitle(for: .people),
                 emojis: [
-                    [0x1F600],
-                    [0x1F603],
-                    [0x1F604],
-                    [0x1F601],
-                    [0x1F606],
-                    [0x1F605],
-                    [0x1F923],
-                    [0x1F602],
+                    [0x1F600], // "\u{1F600}"
+                    [0x1F603], // "\u{1F603}"
+                    [0x1F604], // "\u{1F604}"
+                    [0x1F601], // "\u{1F601}"
+                    [0x1F606],// "\u{1F606}"
+                    [0x1F605], // "\u{1F605}"
+                    [0x1F923], // "\u{1F923}"
+                    [0x1F602], // "{1F605}"
                     [0x1F642],
                     [0x1F643],
                     [0x1FAE0],
